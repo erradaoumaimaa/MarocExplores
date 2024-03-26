@@ -9,11 +9,12 @@ class Category extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $primaryKey = 'name';
+    public $incrementing = false;
+    protected $guarded = [];
 
-
-    // public function itineraries(){
-    // return $this->hasMany(Itinerary::class);
-    // }
-
+    public function itineraries()
+    {
+        return $this->hasMany(Itinerary::class, 'category', 'name');
+    }
 }
