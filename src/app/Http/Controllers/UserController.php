@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\User;  // add the User model
+use App\Models\User;
 
 class UserController extends Controller
 {
+    protected $user;
+
     public function __construct(User $user)
     {
         $this->user = $user;
@@ -15,7 +17,7 @@ class UserController extends Controller
 
     public function me()
     {
-        // use auth()->user() to get authenticated user data
+        $user = $this->user->find(auth()->id());
 
         return response()->json([
             'meta' => [
@@ -24,7 +26,7 @@ class UserController extends Controller
                 'message' => 'User fetched successfully!',
             ],
             'data' => [
-                'user' => auth()->user(),
+                'user' => $user,
             ],
         ]);
     }

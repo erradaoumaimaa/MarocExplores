@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
@@ -49,48 +49,60 @@ class AuthController extends Controller
                     'access_token' => [
                         'token' => $token,
                         'type' => 'Bearer',
-                        'expires_in' => auth()->factory()->getTTL() * 60, // Get token expires in seconds
+                        'expires_in' => auth('api')->factory()->getTTL() * 60, // Get token expires in seconds
                     ],
                 ],
             ]);
         }
 
+        public function login(Request $request)
+        {
+            $this->validate($request, [
+                'email' => 'required|string',
+                'password' => 'required|string',
+            ]);
 
-    // /**
+            // attempt a login (validate the credentials provided)
+            $token = auth()->attempt([
+                'email' => $request->email,
+                'password' => $request->password,
+            ]);
 
-    // public function login()
-    // {
-    //     $credentials = request(['email', 'password']);
+            // if token successfully generated then display success response
+            // if attempt failed then "unauthenticated" will be returned automatically
+            if ($token)
+            {
+                return response()->json([
+                    'meta' => [
+                        'code' => 200,
+                        'status' => 'success',
+                        'message' => 'Query fetched successfully.',
+                    ],
+                    'data' => [
+                        'user' => auth()->user(),
+                        'access_token' => [
+                            'token' => $token,
+                            'type' => 'Bearer',
+                            'expires_in' => auth()->factory()->getTTL() * 60,
+                        ],
+                    ],
+                ]);
+            }
+        }
 
-    //     if (! $token = auth()->attempt($credentials)) {
-    //         return response()->json(['error' => 'Unauthorized'], 401);
-    //     }
 
-    //     return $this->respondWithToken($token);
-    // }
-    //  /**
 
-    // protected function respondWithToken($token)
-    // {
-    //     return response()->json([
-    //         'access_token' => $token,
-    //         'token_type' => 'bearer',
-    //         'expires_in' => auth('api')->factory()->getTTL() * 60
-    //     ]);
-    // }
-    // /**
+   /**
+     * Log the user out (Invalidate the token).
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout()
+    {
+        auth()->logout();
 
-    // public function me()
-    // {
-    //     return response()->json(auth()->user());
-    // }
+        return response()->json(['message' => 'Successfully logged out']);
+    }
 
-    // /**
 
-    // public function logout()
-    // {
-    //     auth()->logout();
-
-    //     return response()->json(['message' => 'Successfully logged out']);
-    // }
 }
