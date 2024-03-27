@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Itinerary;
-use App\Models\VisitList;
+use App\Models\Visit;
 class VisitController extends Controller
 {
 
@@ -25,7 +25,7 @@ public function addToVisitList(Request $request, $itineraryId)
     }
 
     // Créez une nouvelle entrée dans la liste à visiter de l'utilisateur
-    $visitList = new Visits();
+    $visitList = new Visit();
     $visitList->user_id = $user->id;
     $visitList->itinerary_id = $itineraryId;
     $visitList->save();

@@ -37,7 +37,7 @@ Route::controller(ItineraryController::class)->group(function () {
 
 Route::controller(VisitController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
-        Route::post('/itinerary/favoris', 'addToVisitList');
+        Route::post('/itineraries/{id}/visit', [VisitController::class, 'addToVisitList']);
     });
 });
 

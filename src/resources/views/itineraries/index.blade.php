@@ -34,11 +34,11 @@
                                 Pas d'image
                             @endif
                         </td>
-                        <td>
+                        {{-- <td>
                             @foreach ($itinerary->destinations as $destination)
                                 <p>{{ $destination->name }} - {{ $destination->location }}</p>
                             @endforeach
-                        </td>
+                        </td> --}}
                     </tr>
                 @endforeach
             </tbody>

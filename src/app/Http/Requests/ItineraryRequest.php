@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class ItineraryRequest extends FormRequest
+class ItineraryUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,11 @@ class ItineraryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:255',
-            'category' => 'required|exists:categories,name',
-            'duration' => 'required|integer',
-            'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
-            'destinations' => 'required|json',
+            'title' => 'string|max:255',
+            'category' => 'exists:categories,name',
+            'duration' => 'integer',
+            'image' => 'image|mimes:jpg,png,jpeg,gif,svg',
+            'destinations' => 'json',
         ];
     }
 
