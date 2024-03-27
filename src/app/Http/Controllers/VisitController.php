@@ -9,7 +9,35 @@ use App\Models\Visit;
 class VisitController extends Controller
 {
 
-
+    /**
+     * @OA\Post(
+     ** path="/api/itinerary/{id}/visit",
+     *   tags={"Visit"},
+     *   summary="Add itinerary to visit list",
+     *   operationId="visitAdd",
+     *
+     *   @OA\Response(
+     *      response=200,
+     *       description="Itinerary added to visit list successfully",
+     *      @OA\MediaType(
+     *           mediaType="application/json",
+     *      )
+     *   ),
+     *   @OA\Response(
+     *      response=400,
+     *      description="Itinerary already added to visit list"
+     *   ),
+     *   @OA\Response(
+     *      response=404,
+     *      description="Itinerary not found"
+     *   ),
+     * @    OA\Response(
+     *           response=403,
+     *           description="Forbidden"
+     *       ),
+     *  security={{ "apiAuth": {} }}
+     *)
+     **/
 public function addToVisitList(Request $request, $itineraryId)
 {
     $user = auth()->user();
