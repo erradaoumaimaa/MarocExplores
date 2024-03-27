@@ -18,29 +18,41 @@ use App\Http\Controllers\VisitController;
 */
 
 // Public accessible API
+Route::controller(AuthController::class)->group(function () {
+    Route:: post('/register',  'register');
+    Route:: post('/login', 'login');
 
-Route:: post('/register', [AuthController::class, 'register']);
-Route:: post('/login', [AuthController::class, 'login']);
+});
 
-// Authenticated only API
 
-Route::middleware('auth:api')->group(function() {
-    Route::get('/me', [UserController::class, 'me']);
-    Route::post('/logout', [AuthController::class, 'logout']);
+// Logout
+Route::controller(AuthController::class)->group(function () {
+    Route::middleware('auth:api')->group(function () {
+        Route::post('/logout','logout');
+
+    });
+});
+
+Route::controller(UserController::class)->group(function () {
+    Route::middleware('auth:api')->group(function () {
+        Route::get('/me', [UserController::class, 'me']);
+
+    });
 });
 
 Route::controller(ItineraryController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::post('/itinerary/add', 'store');
+        Route::put('/itinerary/{itinerary}/update', 'update');
     });
 });
 
 Route::controller(VisitController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
-        Route::post('/itineraries/{id}/visit', [VisitController::class, 'addToVisitList']);
+        Route::post('/itineraries/{id}/visit',  'addToVisitList');
     });
 });
 
-//Visualisation itineries :
+//visualiser les différents itinéraires :
 Route::get('/itineraries', [ItineraryController::class, 'index']);
 
