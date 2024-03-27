@@ -4,15 +4,45 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ItineraryUpdateRequest;
 use App\Http\Requests\ItineraryRequest;
 use App\Models\Itinerary;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ItineraryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $itineraries = Itinerary::latest()->get();
-        return response()->json(['itineraries' => $itineraries]);
+        $itineraries = Itinerary::latest()
+
+            // search
+            ->when(
+                $request->search,
+                function (Builder $builder) use ($request) {
+                    $builder->where('title', 'like', "%{$request->search}%");
+                }
+            )
+
+            // category filter
+            ->when(
+                $request->category,
+                function (Builder $builder) use ($request) {
+                    $builder->where('category',  $request->category);
+                }
+            )
+
+            // duration filter
+            ->when(
+                $request->duration,
+                function (Builder $builder) use ($request) {
+                    $builder->where('duration',  $request->duration);
+                }
+            )
+            ->get();
+
+        return response()->json([
+            'status' => 'success',
+            'itineraries' => $itineraries,
+        ], 200);
     }
 
 
@@ -48,6 +78,7 @@ class ItineraryController extends Controller
         ], 201);
 
     }
+
 
     public function update(ItineraryUpdateRequest $request, Itinerary $itinerary)
     {
@@ -86,4 +117,5 @@ class ItineraryController extends Controller
         ], 201);
 
     }
+
 }

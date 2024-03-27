@@ -22,7 +22,7 @@ class ItineraryFactory extends Factory
         return [
             'title' => $this->faker->word,
             'category' => $categories[array_rand($categories)],
-            'duration' => $this->faker->randomDigit(),
+            'duration' => $this->faker->numberBetween(1, 10) . ' jours',
             'image' => $this->faker->imageUrl(),
             'destinations' => [
                 [

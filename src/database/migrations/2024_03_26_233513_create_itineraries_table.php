@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('category');
-            $table->integer('duration');
+            $table->string('duration');
             $table->string('image');
             $table->json('destinations');
             $table->foreign('category')->references('name')->on('categories')->cascadeOnDelete()->cascadeOnUpdate();
