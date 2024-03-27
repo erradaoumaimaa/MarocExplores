@@ -24,4 +24,8 @@ class Itinerary extends Model
     {
         return $this->belongsTo(Category::class, 'category', 'name');
     }
+    public function visits()
+    {
+        return $this->hasMany(Visit::class);
+    }
 }

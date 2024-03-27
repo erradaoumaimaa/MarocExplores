@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Visit extends Model
 {
-    protected $table = 'visit_lists';
 
     protected $fillable = ['user_id', 'itinerary_id'];
 
@@ -18,7 +17,7 @@ class Visit extends Model
 
     public function itinerary()
     {
-        return $this->belongsTo(Itinerary::class, 'itinerary_id'); 
+        return $this->belongsTo(Itinerary::class, 'itinerary_id');
     }
 }
 
