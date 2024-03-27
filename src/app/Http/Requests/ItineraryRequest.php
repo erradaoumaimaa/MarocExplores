@@ -2,18 +2,16 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
-class ItineraryUpdateRequest extends FormRequest
+class ItineraryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -24,21 +22,11 @@ class ItineraryUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'string|max:255',
-            'category' => 'exists:categories,name',
-            'duration' => 'integer',
-            'image' => 'image|mimes:jpg,png,jpeg,gif,svg',
-            'destinations' => 'json',
+            'title' => 'required|string|max:255',
+            'category' => 'required|exists:category,name',
+            'duration' => 'required|integer',
+            'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
+            'destinations' => 'required|json|max:255',
         ];
     }
-
-    public function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(response()->json([
-            'success'   => false,
-            'message'   => 'Validation errors',
-            'data'      => $validator->errors()
-        ]));
-    }
-
 }
