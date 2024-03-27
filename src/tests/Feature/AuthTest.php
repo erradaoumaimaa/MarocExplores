@@ -9,6 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthTest extends TestCase
 {
@@ -66,21 +67,23 @@ class AuthTest extends TestCase
             ]);
     }
 
-    /**
-     * Test user logout.
-     *
-     * @return void
-     */
-    public function test_logout()
-    {
-        $user = User::factory()->create();
+  /**
+ * Test user logout.
+ *
+ * @return void
+ */
+public function test_logout()
+{
+    $user = User::factory()->create();
 
-        $token = $user->createToken('Test Token')->plainTextToken;
+    // Générer un token JWT pour l'utilisateur
+    $token = JWTAuth::fromUser($user);
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)
+    $response = $this->withHeader('Authorization', 'Bearer ' . $token)
         ->postJson('/api/logout');
 
-        $response->assertStatus(200)
-            ->assertJson(['message' => 'Successfully logged out']);
-    }
+    $response->assertStatus(200)
+        ->assertJson(['message' => 'Successfully logged out']);
+}
+
 }

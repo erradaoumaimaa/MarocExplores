@@ -44,6 +44,7 @@ Route::controller(ItineraryController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::post('/itinerary/add', 'store');
         Route::put('/itinerary/{itinerary}/update', 'update');
+        Route::delete('/itinerary/{itinerary}/destroy', 'destroy');
     });
 });
 

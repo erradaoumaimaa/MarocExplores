@@ -128,7 +128,7 @@ class ItineraryController extends Controller
                 'message' => 'Unauthorized to delete this itinerary',
             ], 403);
         }
-
+        
         // delete
         $itinerary->delete();
 

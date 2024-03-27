@@ -1,14 +1,15 @@
 <?php
 
 namespace Tests\Unit\Controllers;
-
 use App\Http\Controllers\ItineraryController;
 use App\Http\Requests\ItineraryRequest;
 use App\Http\Requests\ItineraryUpdateRequest;
 use App\Models\Itinerary;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
+use Illuminate\Http\Request;
+use Mockery\MockInterface;
 
 class ItineraryTest extends TestCase
 {
@@ -23,20 +24,23 @@ class ItineraryTest extends TestCase
 
     public function test_index()
     {
-        // Mock the Request
-        $request = $this->createMock(\Illuminate\Http\Request::class);
-        $request->expects($this->once())
-            ->method('input')
-            ->willReturn([]);
+        // Create a mock instance of Request
+        $request = $this->mock(Request::class, function (MockInterface $mock) {
+            $mock->shouldReceive('input')->once()->andReturn([]);
+        });
 
         // Call the index method
         $response = $this->controller->index($request);
 
-        // Assert the response
-        $this->assertEquals('success', $response['status']);
-        $this->assertArrayHasKey('itineraries', $response);
-    }
+        // Assert the response status code
+        $this->assertEquals(200, $response->getStatusCode());
 
+        // Assert the response content
+        $content = $response->getContent();
+        $responseData = json_decode($content, true);
+        $this->assertEquals('success', $responseData['status']);
+        $this->assertArrayHasKey('itineraries', $responseData);
+    }
     public function test_store()
     {
         Storage::fake('public');
@@ -48,7 +52,7 @@ class ItineraryTest extends TestCase
             ->method('validated')
             ->willReturn([
                 'title' => 'Itinerary',
-                'category' => 'Beach',
+                'category' => 'monument',
                 'duration' => '3 jours',
                 'destinations' => json_encode(['Destination 1', 'Destination 2']),
                 'image' => UploadedFile::fake()->image('itinerary.jpg'),
@@ -68,8 +72,8 @@ class ItineraryTest extends TestCase
         // Mock an existing itinerary
         $itinerary = new Itinerary([
             'title' => 'Itinerary',
-            'category' => 'Beach',
-            'duration' => '3 jours',
+            'category' => 'monument',
+            'duration' => '2 jours',
             'destinations' => json_encode(['Destination 1',  'Destination 2']),
         ]);
 
