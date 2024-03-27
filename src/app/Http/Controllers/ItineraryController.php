@@ -9,6 +9,12 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ItineraryController extends Controller
 {
+    public function index()
+    {
+        $itineraries = Itinerary::latest()->get();
+        return view('itineraries.index', compact('itineraries'));
+    }
+
     public function store(ItineraryRequest $request)
     {
         $data = $request->validated();

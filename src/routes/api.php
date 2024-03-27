@@ -40,3 +40,7 @@ Route::controller(VisitController::class)->group(function () {
         Route::post('/itinerary/favoris', 'addToVisitList');
     });
 });
+
+//Visualisation itineries :
+Route::get('/itineraries', [ItineraryController::class, 'index'])->name('itineraries.index');
+
