@@ -12,7 +12,8 @@ class ItineraryController extends Controller
     public function index()
     {
         $itineraries = Itinerary::latest()->get();
-        return view('itineraries.index', compact('itineraries'));
+        dd($itineraries);
+        return view('itineraries.index', ['itineraries' => $itineraries]);
     }
 
     public function store(ItineraryRequest $request)

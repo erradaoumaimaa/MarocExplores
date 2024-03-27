@@ -42,5 +42,5 @@ Route::controller(VisitController::class)->group(function () {
 });
 
 //Visualisation itineries :
-Route::get('/itineraries', [ItineraryController::class, 'index'])->name('itineraries.index');
+Route::get('/itineraries', [ItineraryController::class, 'index']);
 
