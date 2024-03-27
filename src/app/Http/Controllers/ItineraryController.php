@@ -118,4 +118,25 @@ class ItineraryController extends Controller
 
     }
 
+
+    public function destroy(Itinerary $itinerary)
+    {
+        $user = JWTAuth::user();
+        if (!$user->can('delete', $itinerary)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Unauthorized to delete this itinerary',
+            ], 403);
+        }
+
+        // delete
+        $itinerary->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Itinerary deleted successfully',
+        ], 200);
+    }
+
+
 }
