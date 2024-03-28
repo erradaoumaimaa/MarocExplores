@@ -1,0 +1,78 @@
+##########################
+	requete HTTP pour Postman :
+	
+	
+1.
+
+ php artisan migrate:fresh --seed
+############################## test Search and filtre :
+localhost:8000/api/itineraries/?search=u
+localhost:8000/api/itineraries/?category=beach
+localhost:8000/api/itineraries/?duration=2 jours
+######################################################
+for the test Documentation API :
+http://localhost:8000/api/documentation
+
+**************************************
+test register : POST
+
+http://127.0.0.1:8000/api/register
+
+
+**************************************
+test login : POST
+
+http://127.0.0.1:8000/api/login
+
+**************************************
+
+test get profile : GET
+
+
+http://127.0.0.1:8000/api/me
+
+**************************************
+test logout : POST
+
+
+
+
+**************************************
+test display itineraries : GET
+
+http://127.0.0.1:8000/api/itineraries
+
+
+**************************************
+test add to list visits : POST
+
+http://127.0.0.1:8000/api/itineraries/10/visit
+
+
+
+**************************************
+
+create itinerary: POST
+
+localhost:8000/api/itinerary/add
+
+
+*************************************
+
+update itinerary : PUT
+
+localhost:8000/api/itinerary/11/update
+
+
+************************************
+delete itinerary : Delete --- Authorization token bearer
+
+http://127.0.0.1:8000/api/itinerary/1/destroy
+
+
+************************************
+test unitaire :
+ php artisan test 
+ 
+
+************************************
