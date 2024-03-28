@@ -16,15 +16,15 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware ('auth: api', ['except' => ['login', 'register']]);
+        $this->middleware ('auth:api', ['except' => ['login', 'register']]);
     }
 
     /**
      * @OA\Post(
      ** path="/api/register",
      *   tags={"Auth"},
-     *   summary="User login",
-     *   operationId="login",
+     *   summary="User registration",
+     *   operationId="registratio",
      *
      *   @OA\Parameter(
      *          name="name",
@@ -113,8 +113,8 @@ class AuthController extends Controller
      * @OA\Post(
      ** path="/api/login",
      *   tags={"Auth"},
-     *   summary="User registration",
-     *   operationId="register",
+     *   summary="User Authentication",
+     *   operationId="Authentication",
      *
      *      @OA\Parameter(
      *          name="email",

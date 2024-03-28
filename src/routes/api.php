@@ -2,7 +2,7 @@
 use App\Http\Controllers\ItineraryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\VisitController;
 
@@ -56,4 +56,3 @@ Route::controller(VisitController::class)->group(function () {
 
 //visualiser les différents itinéraires :
 Route::get('/itineraries', [ItineraryController::class, 'index']);
-
