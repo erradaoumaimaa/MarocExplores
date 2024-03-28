@@ -254,6 +254,14 @@ class ItineraryController extends Controller
      **/
     public function update(ItineraryUpdateRequest $request, Itinerary $itinerary)
     {
+        $user = JWTAuth::user();
+        if (!$user->can('itineraryOwner', $itinerary)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Unauthorized to update this itinerary',
+            ], 403);
+        }
+
         $data = $request->validated();
 
         if(in_array('destinations', $data))
@@ -278,7 +286,6 @@ class ItineraryController extends Controller
         }
 
         // insert itinerary using user relationship
-        $user = JWTAuth::user();
         $itinerary = $user->itineraries()->findOrFail($itinerary->id);
         $itinerary->update($data);
 
@@ -312,7 +319,7 @@ class ItineraryController extends Controller
     public function destroy(Itinerary $itinerary)
     {
         $user = JWTAuth::user();
-        if (!$user->can('delete', $itinerary)) {
+        if (!$user->can('itineraryOwner', $itinerary)) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Unauthorized to delete this itinerary',
